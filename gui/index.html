@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    </head>
+    <body>
+        <main class="main">
+            <div class="left-container">
+                <video class="video-player" id="video-player" controls></video>
+
+                <div class="video-buttons">
+                    <button type="button" class="generate-captions">Generate captions</button>
+                </div>
+                <div class="lang-container">
+                    <div class="source-lang-container">
+                        <label for="source-lang">Audio Language:</label>
+                        <select id="source-lang">
+                        </select>
+                    </div>
+                    <div class="dest-lang-container">
+                        <label for="dest-lang">Select langauges for captions:</label>
+                        <select id="dest-lang" multiple></select>
+                        <div class="selected-langs-container" id="selected-langs"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-container">
+                <h1>Generate captions</h1>
+                <div class="captions-container">
+                </div>
+            </div>
+        </main>
+    </body>
+    <script src="index.js"></script>
+</html>
