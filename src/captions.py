@@ -1,83 +1,71 @@
 import translators
 import os
+import webvtt
+import pysrt
 
-class Captioner():
-    def __init__(self,media_path):
-        self.media_path = media_path
-        return
+def translate(text,srclan,destlan):
+    """
+    helper function to translate text from one language to another
+
+    Args:
+        text (str): The text to translate
+        srclan (str): The source language
+        destlan (str): The destination language
+    """
+    return translators.translate_text(query_text=text,from_language=srclan,to_language=destlan)
+
+def generate_caption_file(transcript,srclan,destlan,type,captions_folder_path):
+    """
+    Generate caption file from the transcript
+
+    Args:
+        type (str, optional): The type of caption file to generate. Defaults to "srt".
+        filename (str, optional): The name of the caption file to generate. Defaults to "captions".
+    """
+    if type != "srt" and type != "vtt":
+        raise ValueError(f"Unsupported caption file type: {type}")
     
-    def __translate__(self, text,srclan,destlan):
-        """
-        helper function to translate text from one language to another
-
-        Args:
-            text (str): The text to translate
-            srclan (str): The source language
-            destlan (str): The destination language
-        """
-        return translators.translate_text(query_text=text,from_language=srclan,to_language=destlan)
+    with open(f"{captions_folder_path}/{destlan}.{type}", "w",encoding='utf-8') as f:
+        for i,segment in enumerate(transcript["segments"]):
+            if srclan!=destlan:
+                translated_text = translate(segment['text'], srclan, destlan)
+            else:
+                translated_text = segment['text']
+            f.write(f"{i+1}\n")
+            f.write(f"{segment['start']} --> {segment['end']}\n")
+            f.write(f"{translated_text}\n\n")
     
 
-    def generate_captions(self,transcript,srclan, languages,type,captions_folder):
-        """
-        
-        """
-        #create a captions folder if it doesnt exist
-        captions_folder_path = os.path.join(os.getcwd(), captions_folder)
-        os.makedirs(captions_folder_path, exist_ok=True)
+def generate_captions(transcript,srclan, languages,type,captions_folder):
+    """
+    Generates caption files for the transcript in the specified languages
 
-        for language in languages:
+    Args:
+        transcript (dict): A dictionary containing the transcript of the video. The dictionary should have 'text' and 'segments' keys. 'text' is the full transcript of the video, and 'segments' is a list of dictionaries containing the start and end times and the text of each segment of the transcript.
+        languages (list): A list of languages to generate captions for.
+        type (str): The type of caption file to generate.
+        captions_folder (str): The folder to save the caption files to.
+    """
+    for language in languages:
+        generate_caption_file(transcript,srclan,destlan=language,type=type,captions_folder_path=captions_folder)
+        #get the transcript in the language
 
-            self.generate_caption_file(transcript,srclan,destlan=language,type=type,captions_folder_path=captions_folder_path)
-            #get the transcript in the language
-
-    def generate_caption_file(self,transcript,srclan,destlan,type,captions_folder_path):
-        """
-        Generate caption file from the transcript
-
-        Args:
-            type (str, optional): The type of caption file to generate. Defaults to "srt".
-            filename (str, optional): The name of the caption file to generate. Defaults to "captions".
-        """
-        if type == "srt":
-            self.__generate_srt_file(transcript,srclan,destlan,captions_folder_path)
-
-        elif type == "vtt":
-            self.__generate_vtt_file(transcript,srclan,destlan,captions_folder_path)
-        else:
-            raise ValueError(f"Unsupported caption file type: {type}")
-        
-    def __generate_srt_file(self,transcript,srclan,destlan,captions_folder_path):
-        """
-        Generate SRT file from the transcript
-
-        Args:
-            filename (str): The name of the SRT file to generate.
-        """
-        
-        with open(f"{captions_folder_path}/{destlan}.srt", "w",encoding='utf-8') as f:
-            for i,segment in enumerate(transcript["segments"]):
-                if srclan!=destlan:
-                    translated_text = self.__translate__(segment['text'], srclan, destlan)
-                else:
-                    translated_text = segment['text']
-                f.write(f"{i+1}\n")
-                f.write(f"{segment['start']} --> {segment['end']}\n")
-                f.write(f"{translated_text}\n\n")
-
-    def __generate_vtt_file(self,transcript,srclan,destlan,captions_folder_path):
-        """
-        Generate VTT file from the transcript
-
-        Args:
-            filename (str): The name of the VTT file to generate.
-        """
-        with open(f"{captions_folder_path}/{destlan}.vtt", "w",encoding='utf-8') as f:
-            for i,segment in enumerate(transcript["segments"]):               
-                if srclan!=destlan:
-                    translated_text = self.__translate__(segment['text'], srclan, destlan)
-                else:
-                    translated_text = segment['text']
-                f.write(f"{i+1}\n")
-                f.write(f"{segment['start']} --> {segment['end']}\n")
-                f.write(f"{translated_text}\n\n")
+def parse_captions(file_path):
+    captions = []
+    if file_path.endswith('.vtt'):
+        for caption in webvtt.read(file_path):
+            captions.append({
+                'start': str(caption.start),
+                'end': str(caption.end),
+                'text': caption.text.strip()
+            })
+    elif file_path.endswith('.srt'):
+        for caption in pysrt.open(file_path):
+            captions.append({
+                'start': str(caption.start),
+                'end': str(caption.end),
+                'text': caption.text.strip()
+            })
+    else:
+        raise ValueError('Unsupported caption file type')
+    return captions

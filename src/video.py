@@ -1,25 +1,20 @@
-from asr import Transcriber
+from src.asr import Transcriber
 import subprocess
 import os
-from captions import Captioner
+import glob
+from src.captions import generate_captions as captions_generator
+
 class Video():
     """
     
     """
-    def __init__(self,media_path,language="en"):
-        self.media_path = media_path
-        if language == "en":
-            model_path = "base.en"
-        else:
-            model_path = "large"
+    def __init__(self):
+        # multi language transcriber, uses large model
+        self.transcriber = None
+        # just for english, uses base.en
+        self.eng_transcriber = None
 
-        self.language = language
-            
-        self.transcriber = Transcriber(model_path=model_path)
-
-        self.captioner = Captioner(media_path=media_path)
-
-    def get_transcript(self,min_char_length=35, max_char_length=45):
+    def get_transcript(self,media_path,source_lang,min_char_length=35, max_char_length=45):
         """
         Generate transcript for the video
 
@@ -27,25 +22,35 @@ class Video():
             minimum_sentence_length (int, optional): The minimum number of words a sentence should have to be included in the output. Defaults to 5.
             max_sentence_length (int, optional): The maximum number of words a sentence should have to be included in the output. Defaults to 23.
         """
-        return self.transcriber.get_transcript(self.media_path,min_char_length=min_char_length, max_char_length=max_char_length)
+        if source_lang=="en":
+            if self.eng_transcriber is None:
+                self.eng_transcriber = Transcriber(model_path="base.en")
+            return self.eng_transcriber.get_transcript(media_path,min_char_length=min_char_length, max_char_length=max_char_length)
+        else:
+            if self.transcriber is None:
+                self.transcriber = Transcriber(model_path="large")
+            return self.transcriber.get_transcript(media_path,min_char_length=min_char_length, max_char_length=max_char_length)
         
-    def add_captions(self, dest_langs, caption_file_loc, captions_type):
+    def generate_captions(self,media_path,vid_folder, source_lang, dest_langs, captions_type="srt"):
         """
         Add captions to the video
-
-        Args:
-            transcript (dict): A dictionary containing the transcript of the video. The dictionary should have 'text' and 'segments' keys. 'text' is the full transcript of the video, and 'segments' is a list of dictionaries containing the start and end times and the text of each segment of the transcript.
         """
-        transcript = self.get_transcript()
-
-        self.captioner.generate_captions(transcript, srclan=self.language, languages=dest_langs, type=captions_type, captions_folder=caption_file_loc)
+        # generate captions on the origanl file
+        transcript = self.get_transcript(media_path,source_lang)
+        captions_generator(transcript, srclan=source_lang, languages=dest_langs, type=captions_type, captions_folder=vid_folder)
+    
+    def add_captions(self,vid_folder,vid_extension, dest_langs, captions_type="srt"):
+        """
+        Add captions to the video
+        """
+        video_path= os.path.join(vid_folder,"video"+vid_extension)
+        output_path = os.path.join(vid_folder ,'captioned'+vid_extension)
 
         # Use FFmpeg to add the captions to the video
-        output_path = os.path.splitext(self.media_path)[0] + '_captioned.mp4'
-        command = ['ffmpeg', '-i', self.media_path]
+        command = ['ffmpeg', '-i', video_path]
 
         for i, lang in enumerate(dest_langs):
-            caption_file = os.path.join(caption_file_loc, f'{lang}.{captions_type}')
+            caption_file = os.path.join(vid_folder, f'{lang}.{captions_type}')
             if not os.path.isfile(caption_file):
                 raise FileNotFoundError(f"The file {caption_file} does not exist or is not readable.")
             command.extend(['-i', caption_file])
