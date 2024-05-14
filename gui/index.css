@@ -4,33 +4,29 @@ body {
     font-family: Arial, sans-serif;
     margin:0;
   }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-  }
+ 
 .main{
     display: flex;
     flex-direction: row;
     max-height: 100vh;
     max-width:100vw;
-    background-color: #5e2727;
 }
   
 .left-container{
     display: flex;
     flex-direction: column;
     /* height: 100vh; */
-    width: 60vw;
-    background-color: #8d7d7d;
+    width: 50vw;
+    background-color: #bc6100;
     padding:1vw;
 }
 .right-container{
     display: flex;
     flex-direction: column;
     height: 100vh;
-    width:40vw;
-    background-color: #0f0a0a;
+    width:50vw;
+    background-color: #000000;
+    color:rgb(242, 242, 242);
 }
 
 .video-player{
@@ -45,6 +41,7 @@ body {
     flex-direction: row;
     height: 8%;
     justify-content: space-between;
+    gap:2vw;
 }
 .lang-container{
     display: flex;
@@ -53,49 +50,117 @@ body {
 }
 .source-lang-container{
     margin-bottom: 1vh;
-    background-color: blue;
+    gap:1vh;
+}
+.source-lang-container input{
+    margin-right: 1vh;
+    padding:1vh;
+    border-radius: 1vh;
 }
 .dest-lang-container{
     margin-bottom: 1vh;
-    background-color: green;
+    background-color: 1eb751;
 }
 .selected-langs-container{
     margin-bottom: 1vh;
     background-color: red;
 }
+#select-languages-button {
+    padding: 0;
+    border-radius: 1vh;
+    background-color: #1eb751;
+    cursor: pointer;
+    display: inline-block;
+    width:10vw;
+}
+.top-right-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2vh;
+}
+#caption-langauge-dropdown {
+    padding: 1%;
+    border: 1% solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+#save-changes-btn {
+    padding: 1vh;
+    border: none;
+    border-radius: 1vh;
+    background-color: #1eb751;
+    color: black;
+    cursor: pointer;
+}
+
+#save-changes-btn:hover {
+    background-color: #45a049; /* dark green */
+}
+#language-modal, #open-project-modal{
+    display:none;
+    position: fixed;
+    z-index: 1;
+    left: 20%;
+    min-width:25vw;
+    width: auto;
+    top: 25%;
+    background-color: #f1f1f1;
+    padding: 2vw;
+    border-radius: 1vw;
+}
+#language-form{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+#save-languages-button, #open-project-button{
+    padding: 1vh;
+    font-size: 1.5em;
+    border-radius: 1vh;
+    background-color: #4CAF50;
+    cursor: pointer;
+    margin-top: 2vh;
+    margin-left: 40%;
+}
 .captions-container{
-    width: 98%;
+    width: 96%;
     color:#e0e0e0;
     display: flex;
     flex-direction: column;
     padding:1%;
-    background-color: black;
+    border-radius: 1vh;
+    margin:1%;
     overflow: hidden;
     overflow-y: auto;
+    background-color: #000000;
 }
 .caption-div{
-    margin-bottom:1%;
     width:100%;
-    display: flex;
-    align-items: flex-start;
+    margin-bottom: 2vh;
+    outline-color: #8d7d7d;
 }
 .caption-timestamp{
-    background-color: white; 
-    width:10%;
-    border-radius: 2vh;
+    background-color: rgb(253, 249, 249); 
+    width:auto;
+    border-radius: 1vh;
     color:black;
     font-weight: bold;
     padding:1%;
-    /* margin-right: 1%; */
+    display: inline-block;
+    margin-right: 2%;
 }
 .caption-text{
     color:aliceblue;
-    border: none;
-    padding:1%;
-    width:85%;
+    border-color: #1eb751;
+    width:90%;
     overflow-y: auto;
     overflow: hidden;
+    outline: none;
 }
+
   h1 {
     color: #f1f1f1;
     margin-bottom: 20px;
@@ -111,7 +176,11 @@ body {
   button:hover {
     background-color: #e0e0e0;
   }
-  
+  button:disabled {
+    background-color: #f1f1f1;
+    color: #ccc;
+    cursor: not-allowed;
+  }
   .error {
     color: red;
   }
@@ -120,4 +189,25 @@ body {
     color: green;
   }
   
-  
+  .toggle-button {
+    display: flex;
+    width:8vw;
+    margin-bottom: 1vh;
+    background-color: #f1f1f1;
+    border-radius: 1vh;
+    margin-left: 1vw;
+}
+
+.toggle-button input[type="radio"] {
+    display: none;
+}
+
+.toggle-button label {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.toggle-button input[type="radio"]:checked + label {
+    background-color: #007bff;
+    color: white;
+}

@@ -2,31 +2,80 @@
 <html>
     <head>
     <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="manifest" href="assets/site.webmanifest">
+    <link rel="mask-icon" href="assets/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#603cba">
+    <meta name="theme-color" content="#010101">
     </head>
     <body>
         <main class="main">
+            <div id="open-project-modal" type="modal">
+                <form id="open-project-form">
+
+                </form>
+                <button id="open-project-button">Open</button>
+            </div>
             <div class="left-container">
                 <video class="video-player" id="video-player" controls></video>
-
-                <div class="video-buttons">
-                    <button type="button" class="generate-captions">Generate captions</button>
-                </div>
                 <div class="lang-container">
                     <div class="source-lang-container">
-                        <label for="source-lang">Audio Language:</label>
-                        <select id="source-lang">
-                        </select>
+                        <label>
+                            <input type="checkbox" id="is-english-checkbox" checked>
+                            Audio is in English
+                        </label>
+                        <label id="language-label" style="display: none;">
+                            Language code:
+                            <input type="text" id="language-input">
+                        </label>
                     </div>
-                    <div class="dest-lang-container">
-                        <label for="dest-lang">Select langauges for captions:</label>
-                        <select id="dest-lang" multiple></select>
-                        <div class="selected-langs-container" id="selected-langs"></div>
+                    <!-- Create the modal -->
+                    <div id="language-modal" class="modal">
+                        <form id="language-form">
+                            
+                        </form>
+                        <button id="save-languages-button">Save</button>
+                    </div>
+                </div>
+                <div class="video-buttons">
+                    <button type="button" class="generate-captions video-btn">Generate captions</button>
+                    <button type="button" class="apply-captions video-btn" disabled>Apply captions</button>
+                </div>
+                <p>All project data, including the transcript, caption files, and captioned video, will be stored in the 'projects' folder. You can access this location by navigating to <i>File > Reveal project location</i>.</p>
+                <h3>Optional Settings:</h3>
+                <div style="display:flex; flex-direction:row; justify-content: space-between;">
+                    <div style="display:flex; flex-direction: row;">
+                        <h4>Subtitle type:</h4>
+                    
+                        <div class="toggle-button">
+                            
+                            <input type="radio" id="srt" name="captionFormat" value="srt" checked>
+                            <label for="srt">SRT</label>
+                        
+                            <input type="radio" id="vtt" name="captionFormat" value="vtt">
+                            <label for="vtt">VTT</label>
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-direction: row;">
+                        <h4>Subtitle languages:</h4>
+                        <button id="select-languages-button">Select languages</button>
                     </div>
                 </div>
             </div>
             <div class="right-container">
-                <h1>Generate captions</h1>
+
+                <div class="top-right-container">
+                    <h2>Edit captions</h2>
+                    <div style="width:50%; padding:1vh; display: flex; flex-direction:row; justify-content: space-between;">
+                        <select id="caption-langauge-dropdown">
+                        </select>
+                        <button id="save-changes-btn">Save all edits</button>
+                    </div>
+                </div>
                 <div class="captions-container">
+                    
                 </div>
             </div>
         </main>
