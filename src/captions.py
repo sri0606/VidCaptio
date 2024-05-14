@@ -1,5 +1,6 @@
 import translators
 import os
+import json
 import webvtt
 import pysrt
 
@@ -14,7 +15,9 @@ def translate(text,srclan,destlan):
     """
     return translators.translate_text(query_text=text,from_language=srclan,to_language=destlan)
 
-def generate_caption_file(transcript,srclan,destlan,type,captions_folder_path):
+import os
+
+def generate_caption_file(transcript, srclan, destlan, type, captions_folder_path):
     """
     Generate caption file from the transcript
 
@@ -24,10 +27,14 @@ def generate_caption_file(transcript,srclan,destlan,type,captions_folder_path):
     """
     if type != "srt" and type != "vtt":
         raise ValueError(f"Unsupported caption file type: {type}")
-    
-    with open(f"{captions_folder_path}/{destlan}.{type}", "w",encoding='utf-8') as f:
-        for i,segment in enumerate(transcript["segments"]):
-            if srclan!=destlan:
+
+    file_path = f"{captions_folder_path}/{destlan}.{type}"
+    if os.path.isfile(file_path):
+        return 
+
+    with open(file_path, "w", encoding='utf-8') as f:
+        for i, segment in enumerate(transcript["segments"]):
+            if srclan != destlan:
                 translated_text = translate(segment['text'], srclan, destlan)
             else:
                 translated_text = segment['text']
@@ -36,7 +43,7 @@ def generate_caption_file(transcript,srclan,destlan,type,captions_folder_path):
             f.write(f"{translated_text}\n\n")
     
 
-def generate_captions(transcript,srclan, languages,type,captions_folder):
+def generate_captions(srclan, languages,type,captions_folder):
     """
     Generates caption files for the transcript in the specified languages
 
@@ -46,9 +53,12 @@ def generate_captions(transcript,srclan, languages,type,captions_folder):
         type (str): The type of caption file to generate.
         captions_folder (str): The folder to save the caption files to.
     """
+    with open(os.path.join(captions_folder,'transcript.json'), 'r') as f:
+        transcript = json.load(f)
+
     for language in languages:
         generate_caption_file(transcript,srclan,destlan=language,type=type,captions_folder_path=captions_folder)
-        #get the transcript in the language
+
 
 def parse_captions(file_path):
     captions = []

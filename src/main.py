@@ -1,4 +1,4 @@
-from video import Video
+from src.video import Video
 
 if __name__ == "__main__":
     import sys

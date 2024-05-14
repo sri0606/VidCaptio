@@ -22,7 +22,7 @@ class Transcriber():
     def __init__(self,model_path):
         self.recognizer  = stable_whisper.load_model(model_path)
 
-    def get_transcript(self,media_path, min_char_length=35, max_char_length=45):
+    def get_transcript(self,media_path, source_lang, min_char_length=35, max_char_length=45):
         """
         Generate transcript using stable_whisper's version of OpenAI's Whisper
 
@@ -30,7 +30,11 @@ class Transcriber():
          -  minimum_sentence_length : minimu number of words in sentence/transcript of each clip
         """
         transcript = {}
-        result = self.recognizer.transcribe(media_path)
+        if source_lang:
+            options = {"language": source_lang}
+        else:
+            options = {"language":None}
+        result = self.recognizer.transcribe(media_path, **options)
 
         transcript["text"] = result.text
         #get word level timsestamps
