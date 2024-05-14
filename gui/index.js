@@ -7,7 +7,7 @@ const languages = [
     { code: 'hi', name: 'Hindi' },
     { code: 'es', name: 'Spanish' },
     { code: 'fr', name: 'French' },
-    { code: 'ar', name: 'Standard Arabic' },
+    { code: 'ar', name: 'Arabic' },
     { code: 'bn', name: 'Bengali' },
     { code: 'ru', name: 'Russian' },
     { code: 'pt', name: 'Portuguese' },
@@ -21,7 +21,6 @@ const languages = [
     { code: 'sv', name: 'Swedish' },
     { code: 'pl', name: 'Polish' },
     { code: 'tr', name: 'Turkish' },
-    // Add more languages as needed
   ];
 
 

@@ -1,0 +1,7 @@
+pysrt
+translators
+pywebview
+torch
+whisper
+stable-ts
+webvtt-py
