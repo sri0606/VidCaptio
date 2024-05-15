@@ -8,7 +8,7 @@ class VidCaptioAPI:
         self.video_captioner = Video()
         self.are_captions_generated = False
         self.captions_type="srt"
-
+        self.vid_folder = None
     def update_json_file(self, new_data):
         json_file_path = os.path.join(self.vid_folder, 'details.json')
         if not os.path.isfile(json_file_path):
@@ -41,9 +41,9 @@ class VidCaptioAPI:
 
     def save_project_data(self):
         new_data = {
-            'vid_path_original': self.vid_path_original,
-            'vid_folder': self.vid_folder,
-            'vid_extension': self.vid_extension,
+            'vid_path_original': self.vid_path_original if hasattr(self,'vid_path_original') else None,
+            'vid_folder': self.vid_folder if hasattr(self,'vid_folder') else None,
+            'vid_extension': self.vid_extension if hasattr(self,'vid_extension') else None,
             'vid_language': self.vid_language if hasattr(self, 'vid_language') else None,
             'dest_languages': self.dest_languages if hasattr(self, 'dest_languages') else None,
             'are_captions_generated': self.are_captions_generated if hasattr(self, 'are_captions_generated') else False,

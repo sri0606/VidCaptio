@@ -1,6 +1,6 @@
 // store the selected languages
 let selectedLangs = ['ar', 'bn', 'de', 'en', 'es', 'fr', 'hi', 'id', 'ja', 'pt', 'ru', 'ur', 'zh'];
-
+let selectedProject = null;
 const languages = [
     { code: 'en', name: 'English' },
     { code: 'zh', name: 'Mandarin Chinese' },
@@ -111,6 +111,7 @@ function openProject(projectFolders) {
         // When the button is clicked, hide the modal and resolve the Promise with the selected project
         const buttonClickHandler = function() {
             modal.style.display = 'none';
+            selectedProject = select.value;
             resolve(select.value);
             button.removeEventListener('click', buttonClickHandler); // Remove the event listener
         };
@@ -320,6 +321,10 @@ document.querySelector('.generate-captions').addEventListener('click', function(
     const sourceLang = languageInput.value;
     document.querySelector('.generate-captions').disabled = true;
     
+     // Display a message in the captions container
+     // Display a message in the captions container
+document.querySelector('.captions-container').innerHTML = '<br><br><br><br><br><br>Generating captions might take a while...Please wait!<br<br>>Please do not close or open a new project before the captions are generated.';
+
     window.pywebview.api.generate_captions(sourceLang, selectedLangs,getSelectedCaptionType())
         .then(function() {
             loadCaptions(document.getElementById('caption-language-dropdown').value);
