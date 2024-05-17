@@ -1,14 +1,21 @@
 # VidCaptio
 
-VidCaptio is a free and open-source video captioning software that enables users to add multi-language captions to their videos. It utilizes OpenAI's Whisper for speech recognition and understanding and ffmpeg for video processing. Additionally, it offers a graphical user interface (GUI) built using wxPython for easy navigation and operation.
+[![OpenAI Whisper](https://img.shields.io/badge/OpenAI-Whisper-blue)](https://openai.com)
+[![ffmpeg](https://img.shields.io/badge/ffmpeg-latest-orange)](https://ffmpeg.org)
+[![pywebview](https://img.shields.io/badge/pywebview-latest-yellow)](https://pywebview.flowrl.com/)
+[![translators](https://img.shields.io/badge/translators-latest-green)](https://pypi.org/project/translators/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-latest-red)](https://pytorch.org/)
+
+
+VidCaptio is a free and open-source video captioning software that enables users to add multi-language subtitles to their videos. It utilizes OpenAI's Whisper for speech recognition and ffmpeg for video processing. Additionally, it offers a graphical user interface (GUI) built using pywebview for easy navigation and operation.
 
 ## Features
 
 - **Multi-Language Captioning**: VidCaptio allows users to add captions in multiple languages to their videos.
 - **Flexible Captioning Options**: Users have the option to choose which languages they want to add captions for.
 - **Speech Recognition**: Powered by OpenAI's Whisper, VidCaptio accurately transcribes speech from videos for captioning.
-- **Video Processing**: Utilizing ffmpeg, VidCaptio efficiently processes videos for captioning, ensuring high-quality output.
-- **Graphical User Interface (GUI)**: The GUI built with wxPython provides a user-friendly experience for easy navigation and operation.
+- **Edit captions**: You can aedit captions before applying them to the video.
+- **Graphical User Interface (GUI)**: The simple GUI built with pywebview provides a user-friendly experience.
 
 ## Installation
 
@@ -32,12 +39,10 @@ src: This version is intended for developers and includes the source code for Vi
 gui: This version is meant for regular users and provides a pre-built graphical user interface (GUI) for easy installation and usage.
 
 ## Usage
+```bash
+python -m vidcaptio_run
+```
 
-1. Launch VidCaptio using the provided command.
-2. Select the video file you want to add captions to.
-3. Choose the languages for captioning.
-4. Click "Start" to begin the captioning process.
-5. Once completed, the captioned video will be saved in the specified location.
 
 ## Contributing
 
@@ -46,10 +51,3 @@ Contributions to VidCaptio are welcome! If you find any issues or have suggestio
 ## License
 
 VidCaptio is licensed under the GNU General Public License v3.0 (GPL-3.0). See [LICENSE](LICENSE) for more details.
-
-## Acknowledgements
-
-- [OpenAI's Whisper](https://openai.com)
-- [ffmpeg](https://ffmpeg.org)
-- [wxPython](https://www.wxpython.org)
-
