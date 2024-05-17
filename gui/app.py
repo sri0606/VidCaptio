@@ -168,7 +168,7 @@ class VidCaptioApp:
         if project_name==self.project_window.project_name:
             return
         temp_window = self.project_window
-        self.project_window = VidCaptioWindow(self.projects_dir, self.port)
+        self.project_window = VidCaptioWindow(self.projects_dir, self.port,project_name=project_name)
         self.project_window.start(window_title=project_name)
         self.project_window.open_project(project_name=project_name)
         if temp_window:

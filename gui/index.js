@@ -35,8 +35,11 @@ function loadVideo(url) {
     document.querySelector('.apply-captions').disabled = true;
     const video = document.getElementById('video-player');
     video.src = url;
+    // ensures that the video's metadata is loaded before the captions are loaded and the click event listeners are added to the timestamps
+    video.onloadedmetadata = function() {
+        loadCaptions();
+    };
 }
-
 /**
  * Loads captions for a given language and updates the captions container in the DOM.
  * @param {string} [language='en'] - The language code for the captions. Defaults to 'en'.
@@ -46,7 +49,8 @@ function loadCaptions(language='en') {
         .then(function(captions) {
             const captionsContainer = document.querySelector('.captions-container');
             captionsContainer.innerHTML = ''; // Clear the caption container
-        
+            const video = document.getElementById('video-player');
+
             captions.forEach(function(caption) {
                 const captionDiv = document.createElement('div');
                 captionDiv.className = 'caption-div';
@@ -54,6 +58,9 @@ function loadCaptions(language='en') {
                 const timestamp = document.createElement('span');
                 timestamp.className = 'caption-timestamp';
                 timestamp.textContent = `${caption.start} - ${caption.end}`;
+                timestamp.addEventListener('click', function() {
+                    video.currentTime = caption.start; // Set the video's current time to the start of the caption
+                });
                 captionDiv.appendChild(timestamp);
         
                 const text = document.createElement('span');
@@ -119,18 +126,6 @@ function openProject(projectFolders) {
 
         // Display the modal to the user
         modal.style.display = 'block';
-    });
-}
-
-/**
- * Adds languages to the dropdown based on the selected languages.
- */
-function addLanguagesToDropdown(selectedLangs) {
-    languages.forEach(function(language) {
-        if (selectedLangs.includes(language.code)) {
-            const option = new Option(language.name, language.code);
-            document.getElementById('caption-language-dropdown').options.add(option);
-        }
     });
 }
 
@@ -215,7 +210,7 @@ function loadProject(destLanguages, captionsType, areCaptionsGenerated) {
     try {
         updateLanguagesDropdown(selectedLangs);
         updateLanguageForm(selectedLangs);
-        addLanguagesToDropdown(selectedLangs);
+        updateLanguagesDropdown(selectedLangs);
     } catch (error) {
         window.alert('Error updating languages:', error);
     }
@@ -332,7 +327,7 @@ document.querySelector('.captions-container').innerHTML = '<br><br><br><br><br><
             document.getElementById('srt').disabled = true;
             document.getElementById('vtt').disabled = true;             
             document.querySelector('.apply-captions').disabled = false;
-            addLanguagesToDropdown(selectedLangs);
+            updateLanguagesDropdown(selectedLangs);
         })
         .catch(function(error) {
             window.alert('Soemthing went wrong:', error);

@@ -151,6 +151,7 @@ body {
     padding:1%;
     display: inline-block;
     margin-right: 2%;
+    cursor: pointer;
 }
 .caption-text{
     color:aliceblue;
@@ -211,3 +212,4 @@ body {
     background-color: #007bff;
     color: white;
 }
+
