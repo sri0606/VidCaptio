@@ -27,21 +27,33 @@ To install VidCaptio, follow these steps:
    git clone https://github.com/sri0606/VideoCaptioner.git
    ```
 
-2. Install dependencies:
+2. Setup:
+   - To install dependencies and create an executable for easy access, run the following command:
+    ```bash
+      python setup.py --create_exe
+   ```
+      This will create an executable file named run.exe in your project directory.
 
+   - If you only want to install the dependencies without creating an executable, run:
    ```bash
-   cd src
-   pip install -r requirements.txt
+   python setup.py
    ```
 
 ## Versions
 src: This version is intended for developers and includes the source code for VidCaptio.
+
 gui: This version is meant for regular users and provides a pre-built graphical user interface (GUI) for easy installation and usage.
 
 ## Usage
+To run VidCaptio from the source code, use the following command:
 ```bash
-python -m vidcaptio_run
+python -m run
 ```
+If you've created an executable using the --create_exe option during setup, you can run VidCaptio by executing the run.exe file. You can do this either by using the command:
+```bash
+./run.exe
+```
+Or by navigating to the project directory in your file explorer and double-clicking the run.exe file.
 
 
 ## Contributing
