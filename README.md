@@ -30,19 +30,25 @@ To install VidCaptio, follow these steps:
 
 2. Setup:
 
+   - Install ffmpeg if not already installed. You can check if ffmpeg is available using the following command:
+
+     ```bash
+     ffmpeg -version
+     ```
+
    - To install dependencies and create an executable for easy access, run the following command:
 
-   ```bash
+     ```bash
      python setup.py --create_exe
-   ```
+     ```
 
-   This will create an executable file named run.exe in your project directory.
+     This will create an executable file named run.exe in your project directory.
 
    - If you only want to install the dependencies without creating an executable, run:
 
-   ```bash
-   python setup.py
-   ```
+     ```bash
+     python setup.py
+     ```
 
 ## Versions
 
