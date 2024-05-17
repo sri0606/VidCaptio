@@ -6,8 +6,9 @@
 [![translators](https://img.shields.io/badge/translators-latest-green)](https://pypi.org/project/translators/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-latest-red)](https://pytorch.org/)
 
-
 VidCaptio is a free and open-source video captioning software that enables users to add multi-language subtitles to their videos. It utilizes OpenAI's Whisper for speech recognition and ffmpeg for video processing. Additionally, it offers a graphical user interface (GUI) built using pywebview for easy navigation and operation.
+
+![demo](demo1.png)
 
 ## Features
 
@@ -28,33 +29,42 @@ To install VidCaptio, follow these steps:
    ```
 
 2. Setup:
+
    - To install dependencies and create an executable for easy access, run the following command:
-    ```bash
-      python setup.py --create_exe
+
+   ```bash
+     python setup.py --create_exe
    ```
-      This will create an executable file named run.exe in your project directory.
+
+   This will create an executable file named run.exe in your project directory.
 
    - If you only want to install the dependencies without creating an executable, run:
+
    ```bash
    python setup.py
    ```
 
 ## Versions
+
 src: This version is intended for developers and includes the source code for VidCaptio.
 
 gui: This version is meant for regular users and provides a pre-built graphical user interface (GUI) for easy installation and usage.
 
 ## Usage
+
 To run VidCaptio from the source code, use the following command:
+
 ```bash
 python -m run
 ```
+
 If you've created an executable using the --create_exe option during setup, you can run VidCaptio by executing the run.exe file. You can do this either by using the command:
+
 ```bash
 ./run.exe
 ```
-Or by navigating to the project directory in your file explorer and double-clicking the run.exe file.
 
+Or by navigating to the project directory in your file explorer and double-clicking the run.exe file.
 
 ## Contributing
 
