@@ -28,7 +28,7 @@ class Video():
             return self.eng_transcriber.get_transcript(media_path,source_lang, min_char_length=min_char_length, max_char_length=max_char_length)
         else:
             if self.transcriber is None:
-                self.transcriber = Transcriber(model_path="large")
+                self.transcriber = Transcriber(model_path="medium")
             return self.transcriber.get_transcript(media_path, source_lang, min_char_length=min_char_length, max_char_length=max_char_length)
         
     def generate_captions(self,media_path,vid_folder, source_lang, dest_langs, captions_type="srt",save_to_json=True):

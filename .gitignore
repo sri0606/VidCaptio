@@ -160,3 +160,7 @@ cython_debug/
 #.idea/
 projects/
 assets/
+*.build
+*.run
+*.cmd
+*.exe
